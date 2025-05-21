@@ -1,0 +1,28 @@
+name: Check Markdown links
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.md'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.md'
+  schedule:
+    # Run once a month to check for broken external links
+    - cron: '0 0 1 * *'
+
+jobs:
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Check links in markdown files
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
+        config-file: '.github/workflows/markdown-link-check-config.json'
+        folder-path: '.'

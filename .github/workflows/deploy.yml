@@ -1,0 +1,34 @@
+name: Deploy Streamlit App
+
+on:
+  workflow_dispatch:  # Only run manually
+  # Removed automatic triggers during development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # This is a placeholder for actual deployment steps
+      # Replace with your specific deployment needs (e.g., Heroku, Streamlit Cloud, etc.)
+      - name: Deploy to Streamlit Cloud
+        run: |
+          echo "Deploying to Streamlit Cloud..."
+          # Add actual deployment commands here
+          # For example, for Streamlit Cloud:
+          # - No direct CLI, but you could use GitHub webhooks
+          # For Heroku:
+          # - Use Heroku CLI or GitHub integration
+          
+      # Notification step removed to simplify setup

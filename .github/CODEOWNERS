@@ -1,0 +1,31 @@
+# CODEOWNERS file for Applied Cryptography Project
+#
+# This file defines the code owners for different parts of the repository.
+# Code owners are automatically requested for review when someone opens a pull
+# request that modifies code that they own.
+#
+# For more information about the CODEOWNERS file format, see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+# Replace these with actual GitHub usernames when you have specific maintainers
+* @project-maintainer
+
+# Cryptography implementation owners
+/pages/symmetric_algo/ @e-ljay
+/pages/asymmetric_algo/ @maicaaa14
+/pages/hashing_functions/ @frankkss
+
+# Documentation owners
+*.md @docs-team
+/README.md @frankkss
+/CONTRIBUTING.md @frankkss
+/CODE_OF_CONDUCT.md @frankkss
+
+
+# Configuration files
+*.yml @frankkss
+*.yaml @frankkss
+requirements.txt @frankkss
+
+
