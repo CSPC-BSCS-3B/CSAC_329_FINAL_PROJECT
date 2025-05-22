@@ -89,7 +89,7 @@ def main() -> None:
                     f'An error occured. {"Encryption" if mode == "Encrypt" else "Decryption"} failed.', icon="🚨")
 
 
-@st.experimental_fragment
+@st.fragment
 def key_pair_download_btn(pubkey_bytes: bytes, privkey_bytes: bytes) -> None:
     pubkey_buffer = BytesIO(pubkey_bytes)
     privkey_buffer = BytesIO(privkey_bytes)
