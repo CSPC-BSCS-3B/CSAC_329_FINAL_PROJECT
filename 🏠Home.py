@@ -9,34 +9,24 @@ st.set_page_config(
 
 
 def main() -> None:
-
-
-    tab1, tab2, tab3, tab4 = st.tabs(["🏠Home", "🔐Asymmetric", "🔐Symmetric", "🔑Hashing Functions"])
+    st.title("Applied Cryptography")
+ 
+    tab1, tab2, tab3, tab4 = st.tabs(["🏠Home", "🔐Asymmetric", "🔏Symmetric", "🔑Hashing Functions"])
 
     with tab1:
-        st.header("🏠Home")
-        # st.image("", width=200)
+        st.header("About this Project")
         st.markdown("""
-        ### What is Asymmetric Cryptography?
-        Asymmetric cryptography, also known as public-key cryptography, uses a pair of keys (public and private) for encryption and decryption. It enables secure communication without sharing secret keys in advance.
-        
-        **Examples:**
-        - RSA
-        - ECC (Elliptic Curve Cryptography)
-        - DSA (Digital Signature Algorithm)
-        
-        **How it works:**
-        - The public key encrypts data; only the private key can decrypt it.
-        - Used for secure key exchange, digital signatures, and authentication.
-        
-        **Importance:**
-        - Enables secure communication over insecure channels
-        - Foundation for SSL/TLS, digital signatures, and cryptocurrencies
+        This Applied Cryptography Application project aims to develop a simple
+        application that implements various cryptographic techniques to secure
+        communication, data, and information exchange. Cryptography is the science of
+        encoding and decoding messages to protect their confidentiality, integrity,
+        and authenticity. The application will provide a user-friendly interface that
+        allows users to encrypt, decrypt, and hash messages/files using different
+        cryptographic algorithms.\n  
         """)
 
     with tab2:
         st.header("🔐Asymmetric")
-        # st.image("", width=200)
         st.markdown("""
         ### What is Asymmetric Cryptography?
         Asymmetric cryptography, also known as public-key cryptography, uses a pair of keys (public and private) for encryption and decryption. It enables secure communication without sharing secret keys in advance.
@@ -54,10 +44,12 @@ def main() -> None:
         - Enables secure communication over insecure channels
         - Foundation for SSL/TLS, digital signatures, and cryptocurrencies
         """)
+        st.subheader("Click here to try out the asymmetric algorithms")
+        st.page_link(page="pages/🔐Asymmetric_Algorithms.py",
+        label=":green[Asymmetric Algorithms]")
 
     with tab3:
-        st.header("🔐Symmetric")
-        # st.image("", width=200)
+        st.header("🔏Symmetric")
         st.markdown("""
         ### What is Symmetric Cryptography?
         Symmetric cryptography uses the same key for both encryption and decryption. It is fast and suitable for encrypting large amounts of data.
@@ -76,9 +68,12 @@ def main() -> None:
         - Used in file encryption, VPNs, and secure storage
         """)
 
+        st.subheader("Click here to try out the symmetric algorithms")
+        st.page_link(page="pages/🔏Symmetric_Algorithms.py",
+        label=":green[Symmetric Algorithms]")
+
     with tab4:
         st.header("🔑Hashing Functions")
-        # st.image("", width=200)
         st.markdown("""
         ### What is a Hashing Function?
         A hashing function transforms input data into a fixed-size string of characters, which is typically a hash value. It is a one-way function and cannot be reversed.
@@ -97,6 +92,10 @@ def main() -> None:
         - Used in password storage, digital signatures, and data verification
         """)
 
+        st.subheader("Click here to try out the hashing functions")
+        st.page_link(page="pages/🔑Hashing_Functions.py",
+        label=":green[Hash Functions]")
+        
 
 if __name__ == "__main__":
     main()
