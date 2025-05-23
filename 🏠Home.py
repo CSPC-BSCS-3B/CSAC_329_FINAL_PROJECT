@@ -36,12 +36,12 @@ def main() -> None:
 
         with col4:
             col4.subheader(":green[Member 2]")
-            col4.markdown("##### Maica Romaraog")
-            col4.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/no_user.jpg", width=300)
+            col4.markdown("##### Maica S. Romaraog")
+            col4.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/maica_green_border.jpg", width=300)
 
         with col5:
             col5.subheader(":green[Member 3]")
-            col5.markdown("##### Lj Saldivar")
+            col5.markdown("##### Lj Tan T. Saldivar")
             col5.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/lj.jpg", width=300)
 
     with tab2:
