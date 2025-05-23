@@ -25,6 +25,25 @@ def main() -> None:
         cryptographic algorithms.\n  
         """)
 
+        st.divider()
+
+        col3, col4, col5 = st.columns(3)
+
+        with col3:
+            col3.subheader(":green[Member 1]")
+            col3.markdown("##### Divino Franco R. Aurellano")
+            col3.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/franco.jpg", width=300)
+
+        with col4:
+            col4.subheader(":green[Member 2]")
+            col4.markdown("##### Maica Romaraog")
+            col4.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/no_user.jpg", width=300)
+
+        with col5:
+            col5.subheader(":green[Member 3]")
+            col5.markdown("##### Lj Saldivar")
+            col5.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/no_user.jpg", width=300)
+
     with tab2:
         st.header("🔐Asymmetric")
         st.markdown("""
