@@ -124,7 +124,7 @@ def upload_key(mode: Literal['Encrypt', 'Decrypt']) -> BytesIO | None:
     return key
 
 
-@st.experimental_fragment
+@st.fragment
 def select_key_size() -> None:
     key_size = st.selectbox(
         "Choose a key size", (2048, 4096), index=0)
