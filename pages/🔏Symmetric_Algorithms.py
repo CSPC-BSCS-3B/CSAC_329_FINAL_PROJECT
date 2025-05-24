@@ -1,92 +1,147 @@
+# pages/🔏Symmetric_Algorithms.py
+
 import streamlit as st
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.backends import default_backend
+from Crypto.Cipher import AES, DES, DES3
+from Crypto.Random import get_random_bytes
+import base64
 
-# Page settings
-st.set_page_config(page_title="🔐 Symmetric Encryption", page_icon="🔒", layout="centered")
-st.title("🔐 Symmetric Encryption & Decryption Playground")
+# — Padding Helpers —
+def pad(data: bytes, block_size: int) -> bytes:
+    padding_len = block_size - len(data) % block_size
+    return data + bytes([padding_len] * padding_len)
 
-# --- Supported Algorithms Configuration ---
-algorithm_options = {
-    "AES": {"key_sizes": [16, 24, 32], "iv_size": 16, "block_size": 128},
-    "DES": {"key_sizes": [8], "iv_size": 8, "block_size": 64},
-    "3DES": {"key_sizes": [16, 24], "iv_size": 8, "block_size": 64}
-}
+def unpad(data: bytes) -> bytes:
+    padding_len = data[-1]
+    return data[:-padding_len]
 
-# --- Helper Functions ---
-def get_cipher(algorithm, key: bytes, iv: bytes):
-    algo_map = {
-        "AES": algorithms.AES,
-        "DES": algorithms.DES,
-        "3DES": algorithms.TripleDES
-    }
-    return Cipher(algo_map[algorithm](key), modes.CBC(iv), backend=default_backend())
+# — Encryption / Decryption Functions —
+def aes_encrypt(data: bytes, key: bytes):
+    iv = get_random_bytes(AES.block_size)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    ct = cipher.encrypt(pad(data, AES.block_size))
+    return base64.b64encode(iv + ct).decode()
 
-def pad_data(data: bytes, block_size: int) -> bytes:
-    padder = padding.PKCS7(block_size).padder()
-    return padder.update(data) + padder.finalize()
+def aes_decrypt(b64: str, key: bytes):
+    raw = base64.b64decode(b64)
+    iv, ct = raw[:AES.block_size], raw[AES.block_size:]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(ct))
 
-def unpad_data(data: bytes, block_size: int) -> bytes:
-    unpadder = padding.PKCS7(block_size).unpadder()
-    return unpadder.update(data) + unpadder.finalize()
+def des_encrypt(data: bytes, key: bytes):
+    iv = get_random_bytes(DES.block_size)
+    cipher = DES.new(key, DES.MODE_CBC, iv)
+    ct = cipher.encrypt(pad(data, DES.block_size))
+    return base64.b64encode(iv + ct).decode()
 
-# --- UI Elements ---
-with st.form("crypto_form"):
-    col1, col2 = st.columns(2)
-    with col1:
-        algorithm = st.selectbox("🔐 Select Algorithm", list(algorithm_options.keys()))
-        operation = st.selectbox("⚙️ Operation", ["Encrypt", "Decrypt"])
-    with col2:
-        mode = st.selectbox("📥 Mode", ["Text", "File"])
-    
-    key_input = st.text_input("🔑 Enter Key (hex)", placeholder="e.g. 00112233445566778899aabbccddeeff")
-    iv_input = st.text_input("🧾 Enter IV (hex)", placeholder="e.g. aabbccddeeff00998877665544332211")
+def des_decrypt(b64: str, key: bytes):
+    raw = base64.b64decode(b64)
+    iv, ct = raw[:DES.block_size], raw[DES.block_size:]
+    cipher = DES.new(key, DES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(ct))
 
-    data = None
-    if mode == "Text":
-        user_text = st.text_area("📝 Enter Plaintext or Ciphertext")
-        if user_text:
-            data = user_text.encode() if operation == "Encrypt" else bytes.fromhex(user_text.strip())
-    else:
-        uploaded_file = st.file_uploader("📁 Upload File")
-        if uploaded_file:
-            data = uploaded_file.read()
+def triple_des_encrypt(data: bytes, key: bytes):
+    iv = get_random_bytes(DES3.block_size)
+    cipher = DES3.new(key, DES3.MODE_CBC, iv)
+    ct = cipher.encrypt(pad(data, DES3.block_size))
+    return base64.b64encode(iv + ct).decode()
 
-    submitted = st.form_submit_button("🚀 GO!")
+def triple_des_decrypt(b64: str, key: bytes):
+    raw = base64.b64decode(b64)
+    iv, ct = raw[:DES3.block_size], raw[DES3.block_size:]
+    cipher = DES3.new(key, DES3.MODE_CBC, iv)
+    return unpad(cipher.decrypt(ct))
 
-# --- Process the Operation ---
-if submitted:
-    try:
-        config = algorithm_options[algorithm]
-        key = bytes.fromhex(key_input.strip())
-        iv = bytes.fromhex(iv_input.strip())
+# — Streamlit UI —
+st.set_page_config(page_title="Symmetric Algorithms", page_icon="🔏", layout="wide")
+st.header("🔏 Symmetric Encryption")
 
-        # Validate key and IV
-        if len(key) not in config["key_sizes"]:
-            st.error(f"❌ Invalid key size for {algorithm}. Must be one of: {[k * 8 for k in config['key_sizes']]} bits.")
-        elif len(iv) != config["iv_size"]:
-            st.error(f"❌ IV must be {config['iv_size'] * 8} bits ({config['iv_size']} bytes).")
-        elif data is None:
-            st.error("❌ No input data provided.")
+st.markdown("""
+Symmetric cryptography uses the *same* key for encryption and decryption.  
+Choose an algorithm, operation, and input mode below.
+""")
+st.divider()
+
+# — Sidebar Controls —
+algo = st.sidebar.selectbox("Algorithm", ["AES", "DES", "3DES"])
+operation = st.sidebar.radio("Operation", ["Encrypt", "Decrypt"])
+mode = st.sidebar.radio("Mode", ["Text", "File"])
+
+# — Key & Input Fields —
+# Generate random key button
+key_len_map = {"AES": 16, "DES": 8, "3DES": 24}
+if st.sidebar.button("🔑 Generate Key"):
+    st.session_state["sym_key"] = get_random_bytes(key_len_map[algo]).hex()
+
+key_hex = st.sidebar.text_input(
+    "Key (hex)", 
+    value=st.session_state.get("sym_key", ""), 
+    help=f"{key_len_map[algo]} bytes = {key_len_map[algo]*8} bits"
+)
+
+st.sidebar.markdown("---")
+
+# — Main Panel —
+output = None
+
+if mode == "Text":
+    text_in = st.text_area("Enter text or (for decrypt) base64 ciphertext")
+    if st.button("🚀 GO"):
+        if not key_hex or not text_in:
+            st.error("Please supply both a key and input text.")
         else:
-            cipher = get_cipher(algorithm, key, iv)
+            try:
+                key = bytes.fromhex(key_hex)
+                data = text_in.encode() if operation=="Encrypt" else text_in
+                if operation == "Encrypt":
+                    if algo == "AES":
+                        output = aes_encrypt(data, key)
+                    elif algo == "DES":
+                        output = des_encrypt(data, key)
+                    else:
+                        output = triple_des_encrypt(data, key)
+                else:
+                    if algo == "AES":
+                        output = aes_decrypt(data, key).decode()
+                    elif algo == "DES":
+                        output = des_decrypt(data, key).decode()
+                    else:
+                        output = triple_des_decrypt(data, key).decode()
+                st.success("✅ Result:")
+                st.code(output)
+            except Exception as e:
+                st.error(f"Error: {e}")
 
-            if operation == "Encrypt":
-                padded = pad_data(data, config["block_size"])
-                encrypted = cipher.encryptor().update(padded) + cipher.encryptor().finalize()
-                st.success("✅ Encrypted Successfully!")
-                st.code(encrypted.hex(), language="text")
-                st.download_button("⬇️ Download Encrypted File", encrypted, file_name="encrypted_output.bin")
-            else:
-                decrypted_padded = cipher.decryptor().update(data) + cipher.decryptor().finalize()
-                decrypted = unpad_data(decrypted_padded, config["block_size"])
-                try:
-                    decoded_text = decrypted.decode()
-                    st.success("✅ Decrypted Successfully!")
-                    st.code(decoded_text, language="text")
-                except UnicodeDecodeError:
-                    st.warning("⚠️ Decrypted data is binary. Could not decode to UTF-8 text.")
-                    st.download_button("⬇️ Download Decrypted File", decrypted, file_name="decrypted_output.bin")
-    except Exception as e:
-        st.error(f"🚨 Error: {e}")
+else:  # File mode
+    upload = st.file_uploader("Upload file")
+    if upload and st.button("🚀 GO"):
+        key = bytes.fromhex(key_hex) if key_hex else b''
+        file_bytes = upload.read()
+        if not key_hex or not file_bytes:
+            st.error("Please provide both key and file.")
+        else:
+            try:
+                if operation == "Encrypt":
+                    if algo == "AES":
+                        result_b64 = aes_encrypt(file_bytes, key)
+                    elif algo == "DES":
+                        result_b64 = des_encrypt(file_bytes, key)
+                    else:
+                        result_b64 = triple_des_encrypt(file_bytes, key)
+                    out_bytes = result_b64.encode()
+                    out_name = f"enc_{upload.name}.txt"
+                else:
+                    b64 = file_bytes.decode()
+                    if algo == "AES":
+                        out_bytes = aes_decrypt(b64, key)
+                    elif algo == "DES":
+                        out_bytes = des_decrypt(b64, key)
+                    else:
+                        out_bytes = triple_des_decrypt(b64, key)
+                    out_name = f"dec_{upload.name}"
+                st.success("✅ Done!")
+                st.download_button("⬇️ Download Result", data=out_bytes, file_name=out_name)
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+st.markdown("---")
+st.write("🔐 Powered by PyCryptodome")
