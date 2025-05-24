@@ -123,12 +123,16 @@ else:  # File mode
                 if operation == "Encrypt":
                     if algo == "AES":
                         result_b64 = aes_encrypt(file_bytes, key)
+                        out_bytes = result_b64.encode()
+                        out_name = f"enc_{upload.name}.txt"
                     elif algo == "DES":
                         result_b64 = des_encrypt(file_bytes, key)
+                        out_bytes = result_b64.encode()
+                        out_name = f"enc_{upload.name}.txt"
                     else:
                         result_b64 = triple_des_encrypt(file_bytes, key)
-                    out_bytes = result_b64.encode()
-                    out_name = f"enc_{upload.name}.txt"
+                        out_bytes = result_b64.encode()
+                        out_name = f"enc_{upload.name}.txt"
                 else:
                     b64 = file_bytes.decode()
                     if algo == "AES":
