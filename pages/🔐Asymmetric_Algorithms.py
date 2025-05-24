@@ -199,7 +199,72 @@ def generate_dsa_key_pair(size: int) -> tuple[bytes, bytes]:
     )
 
 # --- Run Interface ---
-tab1, tab2, tab3 = st.tabs(["🔐 RSA", "🌀 ECC", "🖋️ DSA"])
+def description_tab():
+    st.subheader("📚 Algorithm Descriptions")
+    
+    # RSA Description
+    with st.expander("🔑 RSA (Rivest-Shamir-Adleman)", expanded=True):
+        st.markdown("""
+        **What is RSA?**
+        - RSA is one of the first public-key cryptosystems, widely used for secure data transmission
+        - Named after its creators: Rivest, Shamir, and Adleman
+        
+        **How it Works:**
+        1. Key Generation:
+            - Generates two distinct large prime numbers
+            - Uses these to create public and private keys
+        2. Encryption:
+            - Uses recipient's public key to encrypt data
+            - Only the corresponding private key can decrypt it
+        
+        **Use Cases:**
+        - Secure email communication
+        - Digital signatures
+        - Secure data transmission
+        - SSL/TLS for secure web browsing
+        """)
+    
+    # ECC Description
+    with st.expander("🌀 ECC (Elliptic Curve Cryptography)", expanded=True):
+        st.markdown("""
+        **What is ECC?**
+        - A modern approach to public-key cryptography
+        - Based on the algebraic structure of elliptic curves over finite fields
+        
+        **Advantages:**
+        - Smaller key sizes compared to RSA
+        - Same level of security with less computational overhead
+        - Ideal for constrained environments
+        
+        **Common Applications:**
+        - Bitcoin and other cryptocurrencies
+        - Secure messaging apps
+        - IoT device security
+        - Mobile device encryption
+        """)
+    
+    # DSA Description
+    with st.expander("🖋️ DSA (Digital Signature Algorithm)", expanded=True):
+        st.markdown("""
+        **What is DSA?**
+        - A Federal Information Processing Standard for digital signatures
+        - Specifically designed for digital signature generation and verification
+        
+        **Key Features:**
+        - Cannot be used for encryption/decryption
+        - Faster signature generation compared to RSA
+        - Smaller signatures than RSA
+        
+        **Common Uses:**
+        - Document signing
+        - Software authentication
+        - Message integrity verification
+        - Identity verification
+        """)
+
+# --- Run Interface ---
+tab1, tab2, tab3, tab4 = st.tabs(["🔐 RSA", "🌀 ECC", "🖋️ DSA", "📚 Descriptions"])
 with tab1: rsa_tab()
 with tab2: ecc_tab()
 with tab3: dsa_tab()
+with tab4: description_tab()
