@@ -25,15 +25,15 @@ def main() -> None:
                 application that implements various cryptographic techniques to secure
                 communication, data, and information exchange. Cryptography is the science of
                 encoding and decoding messages to protect their confidentiality, integrity,
-                and authenticity. This website provides a user-friendly interface that
+                and authenticity. We provide a simple and user-friendly interface that
                 allows users to encrypt, decrypt, and hash messages/files using different
                 cryptographic algorithms.Whether you're a beginner or an experienced
-                cryptographer, this app will help you understand and experience cryptographic
-                concepts effectively.\n  
+                cryptographer, we aim to help you understand and experience cryptographic
+                concepts effectively.\n
                 """)
                 
             with col1_2:
-                image = st.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/crypto_robot.gif", width=0)
+                st.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/crypto_robot.gif")
 
 
         st.divider()
@@ -76,7 +76,7 @@ def main() -> None:
         
         st.divider()
         
-        st.subheader("Click here to try out the asymmetric algorithms")
+        st.subheader("⬇️ Click here to try out the asymmetric algorithms.")
         st.page_link(page="pages/🔐Asymmetric_Algorithms.py",
         label=":green[Asymmetric Algorithms]")
 
@@ -100,7 +100,9 @@ def main() -> None:
         - Used in file encryption, VPNs, and secure storage
         """)
 
-        st.subheader("Click here to try out the symmetric algorithms")
+        st.divider()
+        
+        st.subheader("⬇️ Click here to try out the symmetric algorithms.")
         st.page_link(page="pages/🔏Symmetric_Algorithms.py",
         label=":green[Symmetric Algorithms]")
 
@@ -124,7 +126,8 @@ def main() -> None:
         - Used in password storage, digital signatures, and data verification
         """)
 
-        st.subheader("Click here to try out the hashing functions")
+        st.divider()
+        st.subheader("⬇️ Click here to try out the hashing functions.")
         st.page_link(page="pages/🔑Hashing_Functions.py",
         label=":green[Hash Functions]")
         
