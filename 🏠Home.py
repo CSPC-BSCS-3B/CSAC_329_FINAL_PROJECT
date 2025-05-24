@@ -14,16 +14,27 @@ def main() -> None:
     tab1, tab2, tab3, tab4 = st.tabs(["🏠Home", "🔐Asymmetric", "🔏Symmetric", "🔑Hashing Functions"])
 
     with tab1:
-        st.header("About this Project")
-        st.markdown("""
-        This Applied Cryptography Application project aims to develop a simple
-        application that implements various cryptographic techniques to secure
-        communication, data, and information exchange. Cryptography is the science of
-        encoding and decoding messages to protect their confidentiality, integrity,
-        and authenticity. The application will provide a user-friendly interface that
-        allows users to encrypt, decrypt, and hash messages/files using different
-        cryptographic algorithms.\n  
-        """)
+
+        col1, col2 = st.columns([6, 1])
+        with col1:
+            col1_1, col1_2 = st.columns([6, 1])
+            with col1_1:
+                st.subheader("About this Project")
+                st.markdown("""
+                This Applied Cryptography Application project aims to develop a simple
+                application that implements various cryptographic techniques to secure
+                communication, data, and information exchange. Cryptography is the science of
+                encoding and decoding messages to protect their confidentiality, integrity,
+                and authenticity. This website provides a user-friendly interface that
+                allows users to encrypt, decrypt, and hash messages/files using different
+                cryptographic algorithms.Whether you're a beginner or an experienced
+                cryptographer, this app will help you understand and experience cryptographic
+                concepts effectively.\n  
+                """)
+                
+            with col1_2:
+                image = st.image("https://raw.githubusercontent.com/CSPC-BSCS-3B/Images_Collection/refs/heads/main/crypto_robot.gif", width=0)
+
 
         st.divider()
 
@@ -59,10 +70,12 @@ def main() -> None:
         - The public key encrypts data; only the private key can decrypt it.
         - Used for secure key exchange, digital signatures, and authentication.
         
-        **Importance:**
-        - Enables secure communication over insecure channels
+        **Importance:**        - Enables secure communication over insecure channels
         - Foundation for SSL/TLS, digital signatures, and cryptocurrencies
         """)
+        
+        st.divider()
+        
         st.subheader("Click here to try out the asymmetric algorithms")
         st.page_link(page="pages/🔐Asymmetric_Algorithms.py",
         label=":green[Asymmetric Algorithms]")
