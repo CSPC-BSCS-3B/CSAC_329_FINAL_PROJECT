@@ -1,6 +1,8 @@
 # CSAC 329 Final Project
 *Date: May 25, 2025*
 
+📺 **Project Presentation Video**: [Watch on YouTube](https://youtu.be/zP31awmy0b8)
+
 ---
 
 ## Group Members
